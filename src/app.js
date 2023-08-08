@@ -4,6 +4,7 @@ const bodyParser = require("body-parser");
 const createError = require("http-errors");
 const xssClean = require("xss-clean");
 const rateLimit = require("express-rate-limit");
+const userRouter = require("./routers/userRouter");
 
 const app = express();
 
@@ -19,13 +20,10 @@ app.use(morgan("dev"));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
+app.use("/api/users", userRouter);
+
 app.get("/test", (req, res) => {
   res.status(200).send({ message: "Welcome to the test server." });
-});
-
-app.get("/api/users", (req, res) => {
-  console.log(req.body.id);
-  res.status(200).json({ message: "Welcome back to profile" });
 });
 
 //client error handlling
